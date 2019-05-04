@@ -5,12 +5,11 @@ BASE_ROOT=$(cd "$(dirname "$0")";pwd)
 # date time
 DATE_TIME=`date +%Y%m%d%H%M%S`
 # base crt path
-CRT_BASE_PATH="/usr/syno/etc/certificate"
+CRT_BASE_PATH="/etc/nginx/conf.d/cert"
 #CRT_BASE_PATH="/Users/carl/Downloads/certificate"
 ACME_BIN_PATH=${BASE_ROOT}/acme.sh
 TEMP_PATH=${BASE_ROOT}/temp
-CRT_PATH_NAME=`cat ${CRT_BASE_PATH}/_archive/DEFAULT`
-CRT_PATH=${CRT_BASE_PATH}/_archive/${CRT_PATH_NAME}
+CRT_PATH=${CRT_BASE_PATH}
 
 backupCrt () {
   echo 'begin backupCrt'
@@ -66,7 +65,7 @@ updateService () {
 reloadWebService () {
   echo 'begin reloadWebService'
   echo 'reloading new cert...'
-  /usr/syno/etc/rc.sysv/nginx.sh reload
+  service -s reload
   echo 'done reloadWebService'  
 }
 
@@ -91,7 +90,7 @@ updateCrt () {
   backupCrt
   installAcme
   generateCrt
-  updateService
+  #updateService
   reloadWebService
   echo '------ end updateCrt ------'
 }
