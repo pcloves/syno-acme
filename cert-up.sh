@@ -42,7 +42,7 @@ installAcme () {
 generateCrt () {
   echo 'begin generateCrt'
   cd ${BASE_ROOT}
-  source config
+  source ./config
   echo 'begin updating default cert by acme.sh tool'
   source ${ACME_BIN_PATH}/acme.sh.env
   ${ACME_BIN_PATH}/acme.sh --issue --dns ${DNS} --dnssleep ${DNS_SLEEP} -d "${DOMAIN}" -d "*.${DOMAIN}"
@@ -65,7 +65,7 @@ updateService () {
 reloadWebService () {
   echo 'begin reloadWebService'
   echo 'reloading new cert...'
-  service -s reload
+  nginx -s reload
   echo 'done reloadWebService'  
 }
 
